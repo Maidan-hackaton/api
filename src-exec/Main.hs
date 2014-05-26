@@ -33,7 +33,10 @@ main = do
             params' <- params
             jsonUtf8 $ Expense.select params' (expenses db)
 
-        where jsonUtf8 xs = do
+        where jsonUtf8 = genericUtf8 "json"
+              msgpackUtf8 = genericUtf8 "mspack"
+
+              genericUtf8 t s = do
                 setHeader "Access-Control-Allow-Origin" "*"
-                setHeader "Content-Type" "application/json; charset=utf-8"
-                raw $ encode xs
+                setHeader "Content-Type" "application/" ++ t ++ "; charset=utf-8"
+                raw $ encode s
